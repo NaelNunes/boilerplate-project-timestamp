@@ -40,7 +40,7 @@ app.get("/api/:date", (req,res) => {
   if(!isNaN(unixTimestamp))
   {
     res.send({
-      unix: req.params.date,
+      unix: unixTimestamp,
       utc: new Date(unixTimestamp).toUTCString()
     });
   } else {
