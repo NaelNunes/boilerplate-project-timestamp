@@ -18,6 +18,45 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+const months = [
+  'Jan', 'Feb',	'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',	'Oct',	'Nov',	'Dec'
+];
+
+function validDate(data) {
+  return !isNaN(new Date(data).getTime());
+}
+
+app.get("/api", (req,res) => {
+  res.json({
+    unix: new Date().getTime(),
+    utf: new Date()
+  });
+});
+
+app.get("/api/:date", (req,res) => {
+
+  if(!isNaN(req.params.date))
+  {
+    res.json({
+      unix: req.params.date,
+      utf: new Date(req.params.date)
+    });
+  } else {
+    if(validDate(req.params.date))
+      {
+        const unix = new Date(req.params.date).getTime();
+  
+        res.json({
+          unix: unix,
+          utf: new Date(req.params.date)
+        });
+      } else {
+        res.send({ 
+          error : "Invalid Date"
+        });
+      }
+  }
+});
 
 // your first API endpoint... 
 app.get("/api/hello", function (req, res) {
