@@ -29,7 +29,7 @@ function validDate(data) {
 app.get("/api", (req,res) => {
   res.json({
     unix: new Date().getTime(),
-    utf: new Date()
+    utf: new Date().toUTCString()
   });
 });
 
@@ -39,7 +39,7 @@ app.get("/api/:date", (req,res) => {
   {
     res.json({
       unix: req.params.date,
-      utf: new Date(req.params.date)
+      utf: new Date(req.params.date).toUTCString()
     });
   } else {
     if(validDate(req.params.date))
@@ -48,7 +48,7 @@ app.get("/api/:date", (req,res) => {
   
         res.json({
           unix: unix,
-          utf: new Date(req.params.date)
+          utf: new Date(req.params.date).toUTCString()
         });
       } else {
         res.send({ 
