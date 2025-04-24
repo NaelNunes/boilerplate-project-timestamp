@@ -29,17 +29,19 @@ function validDate(data) {
 app.get("/api", (req,res) => {
   res.json({
     unix: new Date().getTime(),
-    utf: new Date().toUTCString()
+    utc: new Date().toUTCString()
   });
 });
 
 app.get("/api/:date", (req,res) => {
 
-  if(!isNaN(req.params.date))
+  const unixTimestamp = Number(req.params.date);
+
+  if(!isNaN(unixTimestamp))
   {
-    res.json({
+    res.send({
       unix: req.params.date,
-      utf: new Date(req.params.date).toUTCString()
+      utc: new Date(unixTimestamp).toUTCString()
     });
   } else {
     if(validDate(req.params.date))
@@ -48,7 +50,7 @@ app.get("/api/:date", (req,res) => {
   
         res.json({
           unix: unix,
-          utf: new Date(req.params.date).toUTCString()
+          utc: new Date(req.params.date).toUTCString()
         });
       } else {
         res.send({ 
